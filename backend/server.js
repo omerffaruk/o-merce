@@ -8,6 +8,15 @@ app.get('/api/products', (req, res) => {
   res.send(data);
 });
 
+app.get('/api/products/slug/:slug', (req, res) => {
+  const product = data.products.find((p) => p.slug === req.params.slug);
+  if (product) {
+    return res.send(product);
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
 });
