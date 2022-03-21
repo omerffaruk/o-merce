@@ -16,20 +16,12 @@ code {
     monospace;
 }
 
-/* Header */
-header {
-  background-color: #404040;
-  padding: 1rem;
-}
-
-header a {
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: bold;
+.site-container {
+  min-height: 100vh;
 }
 
 main {
-  padding: 1rem;
+  flex: 1;
 }
 
 /* List Products  */
