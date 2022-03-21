@@ -24,6 +24,12 @@ main {
   flex: 1;
 }
 
+/* Button primary color*/
+.btn-primary {
+  background-color: #f0c040;
+  color: #000000;
+}
+
 /* List Products  */
 .products {
   display: flex;
@@ -39,6 +45,10 @@ main {
 .product img {
   width: auto;
   max-width: 330px;
+}
+
+.rating span {
+  color: #ffc000;
 }
 
 .product-info {
