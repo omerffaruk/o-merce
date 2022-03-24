@@ -1,18 +1,21 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import axios from 'axios';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import logger from 'use-reducer-logger';
-import Product from '../components/Product';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect, useReducer, useState } from "react";
+import axios from "axios";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import logger from "use-reducer-logger";
+import Product from "../components/Product";
+import { Helmet } from "react-helmet-async";
+import LoadingBox from "../components/LoadingBox";
+import ErrorBox from "../components/ErrorBox";
+import { getError } from "../components/utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST':
+    case "FETCH_REQUEST":
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case "FETCH_SUCCESS":
       return { ...state, products: action.payload, loading: false };
-    case 'FETCH_FAIL':
+    case "FETCH_FAIL":
       return { ...state, error: action.payload, loading: false };
     default:
       return state;
@@ -23,7 +26,7 @@ function HomePage() {
   const initialState = {
     products: [],
     loading: true,
-    error: '',
+    error: "",
   };
   const [{ products, loading, error }, dispatch] = useReducer(
     logger(reducer),
@@ -31,12 +34,12 @@ function HomePage() {
   );
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+      dispatch({ type: "FETCH_REQUEST" });
       try {
-        const result = await axios.get('/api/products');
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data.products });
+        const result = await axios.get("/api/products");
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data.products });
       } catch (err) {
-        dispatch({ type: 'FETCH_ERROR', payload: err });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     fetchData();
@@ -49,9 +52,9 @@ function HomePage() {
       <h1>Featured Products</h1>
       <div className="products">
         {loading ? (
-          <div>Loading...</div>
+          <LoadingBox />
         ) : error ? (
-          <div>Error</div>
+          <ErrorBox>{error}</ErrorBox>
         ) : (
           <Row>
             {products.map((product) => (

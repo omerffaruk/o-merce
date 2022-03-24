@@ -1,22 +1,25 @@
-import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Badge from 'react-bootstrap/Badge';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { useParams } from 'react-router-dom';
-import Rating from '../components/Rating';
-import Button from 'react-bootstrap/Button';
-import { Helmet } from 'react-helmet-async';
+import axios from "axios";
+import React, { useEffect, useReducer } from "react";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Badge from "react-bootstrap/Badge";
+import ListGroup from "react-bootstrap/ListGroup";
+import { useParams } from "react-router-dom";
+import Rating from "../components/Rating";
+import Button from "react-bootstrap/Button";
+import { Helmet } from "react-helmet-async";
+import LoadingBox from "../components/LoadingBox";
+import ErrorBox from "../components/ErrorBox";
+import { getError } from "../components/utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST':
+    case "FETCH_REQUEST":
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
+    case "FETCH_SUCCESS":
       return { ...state, product: action.payload, loading: false };
-    case 'FETCH_FAIL':
+    case "FETCH_FAIL":
       return { ...state, error: action.payload, loading: false };
     default:
       return state;
@@ -29,7 +32,7 @@ function ProductPage() {
   const initialState = {
     product: [],
     loading: true,
-    error: '',
+    error: "",
   };
   const [{ product, loading, error }, dispatch] = useReducer(
     reducer,
@@ -37,20 +40,20 @@ function ProductPage() {
   );
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+      dispatch({ type: "FETCH_REQUEST" });
       try {
         const result = await axios.get(`/api/products/slug/${slug}`);
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_ERROR', payload: err });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     fetchData();
   }, [slug]);
   return loading ? (
-    <div>Loading...</div>
+    <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <ErrorBox variant="danger" error={error} />
   ) : (
     <Row>
       <Col md={5}>
