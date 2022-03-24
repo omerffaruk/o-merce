@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import ErrorBox from "../components/ErrorBox";
 import { getError } from "../components/utils";
+import { Store } from "../Store";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -50,6 +51,17 @@ function ProductPage() {
     };
     fetchData();
   }, [slug]);
+
+  // access state and dispatch props created with createContext React hook, change the name of the dispatch to ctxDispatch, pass Store object to useContext
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const addToCartHandler = () => {
+    ctxDispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity: 1 },
+    });
+    // console.log({ state });
+  };
+
   return loading ? (
     <LoadingBox />
   ) : error ? (
@@ -99,7 +111,9 @@ function ProductPage() {
               {product.countInStock > 0 && (
                 <ListGroup.Item>
                   <div className="d-grid">
-                    <Button className="primary">Add to cart</Button>
+                    <Button className="primary" onClick={addToCartHandler}>
+                      Add to cart
+                    </Button>
                   </div>
                 </ListGroup.Item>
               )}
