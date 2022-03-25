@@ -54,10 +54,22 @@ function ProductPage() {
 
   // access state and dispatch props created with createContext React hook, change the name of the dispatch to ctxDispatch, pass Store object to useContext
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const addToCartHandler = () => {
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    // check item already in the cart, if so increase the quantity by one if not set the quantity 1
+    const existItem = cart.cartItems.find((item) => item._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    // get how many items in the inventory to show out of stock if there is no enough
+    const result = await axios.get(`/api/products/${product._id}`);
+    // result is an object with the whole response properties, data is an object with only returned data from response
+    const { data } = result;
+    if (data.countInStock < quantity) {
+      window.alert("Sorry, product is out of stock.");
+      return;
+    }
     ctxDispatch({
       type: "CART_ADD_ITEM",
-      payload: { ...product, quantity: 1 },
+      payload: { ...product, quantity },
     });
     // console.log({ state });
   };
