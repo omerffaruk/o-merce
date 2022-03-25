@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import Button from "react-bootstrap/Button";
 import { Helmet } from "react-helmet-async";
@@ -28,6 +28,7 @@ const reducer = (state, action) => {
 };
 
 function ProductPage() {
+  const navigate = useNavigate(); // useNavigate() is a hook to navigate to a new page
   const params = useParams();
   const { slug } = params;
   const initialState = {
@@ -72,6 +73,7 @@ function ProductPage() {
       payload: { ...product, quantity },
     });
     // console.log({ state });
+    navigate("/cart"); // navigate to the cart page when clicked on add to cart
   };
 
   return loading ? (
