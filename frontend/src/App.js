@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
 import { useContext } from "react";
 import { Store } from "./Store";
+import CartPage from "./pages/CartPage";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -40,6 +41,7 @@ function App() {
           <Container className="mt-3">
             <Routes>
               <Route path="/product/:slug" element={<ProductPage />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
