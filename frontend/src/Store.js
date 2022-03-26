@@ -3,6 +3,12 @@ import { createContext, useReducer } from "react";
 export const Store = createContext(); // creates an object that contains Provider and Consumer
 // console.log("Store====>", Store);
 
+const initialState = {
+  cart: {
+    cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
+  },
+};
+
 function reducer(state, action) {
   switch (action.type) {
     case "CART_ADD_ITEM":
@@ -16,17 +22,24 @@ function reducer(state, action) {
             return item._id === existItem._id ? newItem : item;
           })
         : [...state.cart.cartItems, newItem];
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
+    case "CART_REMOVE_ITEM":
+      const itemToRemove = action.payload;
+      console.log(itemToRemove);
+      const cartItemsAfterRemove = state.cart.cartItems.filter((item) => {
+        return item._id !== itemToRemove._id;
+      });
+      localStorage.setItem("cartItems", JSON.stringify(cartItemsAfterRemove));
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: cartItemsAfterRemove },
+      };
+
     default:
       return state;
   }
 }
-
-const initialState = {
-  cart: {
-    cartItems: [],
-  },
-};
 
 export function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
