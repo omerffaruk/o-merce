@@ -26,7 +26,6 @@ function reducer(state, action) {
       return { ...state, cart: { ...state.cart, cartItems } };
     case "CART_REMOVE_ITEM":
       const itemToRemove = action.payload;
-      console.log(itemToRemove);
       const cartItemsAfterRemove = state.cart.cartItems.filter((item) => {
         return item._id !== itemToRemove._id;
       });
