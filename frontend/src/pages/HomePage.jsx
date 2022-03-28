@@ -37,7 +37,7 @@ function HomePage() {
       dispatch({ type: "FETCH_REQUEST" });
       try {
         const result = await axios.get("/api/products");
-        dispatch({ type: "FETCH_SUCCESS", payload: result.data.products });
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
       } catch (err) {
         dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
