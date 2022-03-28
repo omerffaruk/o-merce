@@ -2,6 +2,7 @@ import express from "express";
 import data from "./data.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import seedRoutes from "./routes/seedRoutes.js";
 
 dotenv.config(); // loads variables from .env file and makes them available to the process
 mongoose
@@ -12,7 +13,9 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
 const app = express();
+app.use("/api/seed", seedRoutes);
 
 const port = process.env.PORT || 5000;
 
