@@ -18,8 +18,8 @@ mongoose
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // express.json() is middleware that convert request body to JSON
+app.use(express.urlencoded({ extended: true })); // express.urlencoded() just like express.json() converts request body to JSON, it also carries out some other functionalities like: converting form-data to JSON etc.
 
 app.use("/api/seed", seedRoutes);
 app.use("/api/products", productRoutes);
