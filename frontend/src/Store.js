@@ -4,6 +4,7 @@ export const Store = createContext(); // creates an object that contains Provide
 // console.log("Store====>", Store);
 
 const initialState = {
+  userInfo: JSON.parse(localStorage.getItem("userInfo")) || null,
   cart: {
     cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
   },
@@ -34,7 +35,10 @@ function reducer(state, action) {
         ...state,
         cart: { ...state.cart, cartItems: cartItemsAfterRemove },
       };
-
+    case "USER_SIGNIN":
+      return { ...state, userInfo: action.payload };
+    case "USER_SIGNOUT":
+      return { ...state, userInfo: null };
     default:
       return state;
   }
