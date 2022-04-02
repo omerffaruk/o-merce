@@ -14,6 +14,7 @@ import { Store } from "./Store";
 import CartPage from "./pages/CartPage";
 import SigninPage from "./pages/SigninPage";
 import ShippingAddressPage from "./pages/ShippingAddressPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -45,7 +46,10 @@ function App() {
                   )}
                 </Link>
                 {userInfo ? (
-                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                  <NavDropdown
+                    title={`${userInfo.firstName} ${userInfo.lastName}`}
+                    id="basic-nav-dropdown"
+                  >
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>User</NavDropdown.Item>
                     </LinkContainer>
@@ -78,6 +82,7 @@ function App() {
               <Route path="/product/:slug" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/signin" element={<SigninPage />} />
+              <Route path="/signup" element={<SignupPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
