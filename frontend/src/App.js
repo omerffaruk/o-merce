@@ -15,6 +15,7 @@ import CartPage from "./pages/CartPage";
 import SigninPage from "./pages/SigninPage";
 import ShippingAddressPage from "./pages/ShippingAddressPage";
 import SignupPage from "./pages/SignupPage";
+import PaymentMethodPage from "./pages/PaymentMethodPage";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -24,6 +25,7 @@ function App() {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("paymentMethod");
   };
   return (
     <BrowserRouter>
@@ -84,6 +86,7 @@ function App() {
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />
+              <Route path="/payment" element={<PaymentMethodPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </Container>
