@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { Helmet } from "react-helmet-async";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,11 +8,31 @@ import { Store } from "../Store";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Link, useNavigate } from "react-router-dom";
 import ListGroup from "react-bootstrap/ListGroup";
+import { toast } from "react-toastify";
+import { getError } from "../components/utils";
+import axios from "axios";
+import LoadingBox from "../components/LoadingBox";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export default function PlaceOrderPage() {
+  console.log("Something in place order page");
   const navigate = useNavigate();
+  const [{ loading }, dispatch] = useReducer(reducer, {
+    loading: false,
+  });
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  console.log(state);
   const { cart, userInfo } = state;
   const {
     cart: { cartItems, shippingAddress, paymentMethod },
@@ -30,7 +50,36 @@ export default function PlaceOrderPage() {
   cart.totalPrice = round2(
     cart.itemsTotalPrice + cart.shippingTotalPrice + cart.taxTotal
   );
-  const placeOrderHandler = async () => {};
+  const placeOrderHandler = async () => {
+    try {
+      dispatch({ type: "FETCH_REQUEST" });
+      console.log("Before axios fetch");
+      const { data } = await axios.post(
+        "/api/orders",
+        {
+          orderItems: cartItems,
+          shippingAddress,
+          paymentMethod,
+          itemsPrice: cart.itemsTotalPrice,
+          shippingPrice: cart.shippingTotalPrice,
+          taxPrice: cart.taxTotal,
+          totalPrice: cart.totalPrice,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      console.log("After axios fetch, if successful");
+      ctxDispatch({ type: "EMPTY_CART" });
+      dispatch({ type: "FETCH_SUCCESS" });
+      localStorage.removeItem("cartItems");
+      navigate(`/order/${data.order._id}`);
+    } catch (err) {
+      console.log("After axios fetch, if error");
+      dispatch({ type: "FETCH_FAIL" });
+      toast.error(getError(err));
+    }
+  };
   useEffect(() => {
     if (!paymentMethod) {
       navigate("/payment");
@@ -137,6 +186,7 @@ export default function PlaceOrderPage() {
                   >
                     Place order
                   </Button>
+                  {loading && <LoadingBox></LoadingBox>}
                 </div>
               </ListGroup>
             </Card.Body>
