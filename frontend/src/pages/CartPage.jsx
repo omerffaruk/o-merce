@@ -16,7 +16,6 @@ export default function CartPage() {
   const {
     cart: { cartItems },
   } = state;
-  console.log({ cartItems });
   const totalQuantity = cartItems.reduce((a, c) => a + c.quantity, 0);
   const totalPrice = cartItems.reduce((a, c) => a + c.quantity * c.price, 0);
   const updateCartHandler = async (item, quantity) => {

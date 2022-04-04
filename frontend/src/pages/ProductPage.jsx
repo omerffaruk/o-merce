@@ -72,7 +72,6 @@ function ProductPage() {
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity },
     });
-    // console.log({ state });
     navigate("/cart"); // navigate to the cart page when clicked on add to cart
   };
 
