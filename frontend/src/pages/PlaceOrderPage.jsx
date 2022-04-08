@@ -20,14 +20,13 @@ const reducer = (state, action) => {
     case "FETCH_SUCCESS":
       return { ...state, loading: false };
     case "FETCH_FAIL":
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false };
     default:
       return state;
   }
 };
 
 export default function PlaceOrderPage() {
-  console.log("Something in place order page");
   const navigate = useNavigate();
   const [{ loading }, dispatch] = useReducer(reducer, {
     loading: false,
@@ -53,7 +52,6 @@ export default function PlaceOrderPage() {
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: "FETCH_REQUEST" });
-      console.log("Before axios fetch");
       const { data } = await axios.post(
         "/api/orders",
         {
@@ -69,13 +67,11 @@ export default function PlaceOrderPage() {
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
-      console.log("After axios fetch, if successful");
       ctxDispatch({ type: "EMPTY_CART" });
       dispatch({ type: "FETCH_SUCCESS" });
       localStorage.removeItem("cartItems");
       navigate(`/order/${data.order._id}`);
     } catch (err) {
-      console.log("After axios fetch, if error");
       dispatch({ type: "FETCH_FAIL" });
       toast.error(getError(err));
     }
@@ -123,7 +119,7 @@ export default function PlaceOrderPage() {
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
                 {state.cart.cartItems.map((item) => (
-                  <ListGroup.Item key={item.id}>
+                  <ListGroup.Item key={`{item._id}-${item.slug}`}>
                     <Row className="align-items-center">
                       <Col md={6}>
                         <img

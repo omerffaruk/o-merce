@@ -9,11 +9,10 @@ orderRouter.post(
   "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    console.log("This is to see if expressAsyncHandler is working at all.");
     const newOrder = new Order({
       orderItems: req.body.orderItems.map((x) => ({
         ...x,
-        product: x.product._id,
+        product: x._id,
       })),
       shippingAddress: req.body.shippingAddress,
       paymentMethod: req.body.paymentMethod,
@@ -23,7 +22,6 @@ orderRouter.post(
       totalPrice: req.body.totalPrice,
       user: req.user._id,
     });
-    console.log(newOrder);
     const order = await newOrder.save();
     res.status(201).send({ message: "Order created successfully", order });
     return;
