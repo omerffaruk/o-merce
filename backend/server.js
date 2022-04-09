@@ -22,6 +22,10 @@ const app = express();
 app.use(express.json()); // express.json() is middleware that convert request body to JSON
 app.use(express.urlencoded({ extended: true })); // express.urlencoded() just like express.json() converts request body to JSON, it also carries out some other functionalities like: converting form-data to JSON etc.
 
+app.get("/api/keys/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || "sb");
+});
+
 app.use("/api/seed", seedRouter);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
