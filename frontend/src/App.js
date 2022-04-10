@@ -19,6 +19,7 @@ import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import OrderHistory from "./pages/OrderHistory";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -29,6 +30,7 @@ function App() {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
     localStorage.removeItem("paymentMethod");
+    window.location.href = "/signin";
   };
   return (
     <BrowserRouter>
@@ -59,7 +61,7 @@ function App() {
                       id="basic-nav-dropdown"
                     >
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User</NavDropdown.Item>
+                        <NavDropdown.Item>Profile</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
                         <NavDropdown.Item>Order History</NavDropdown.Item>
@@ -96,6 +98,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethodPage />} />
               <Route path="/placeorder" element={<PlaceOrderPage />} />
               <Route path="/orderhistory" element={<OrderHistory />} />
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/order/:id" element={<OrderPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>

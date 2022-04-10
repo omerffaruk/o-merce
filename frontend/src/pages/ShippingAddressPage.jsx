@@ -49,7 +49,7 @@ export default function ShippingAddressPage() {
             <Form.Label>First Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter your first name"
+              placeholder="Enter first name"
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -59,7 +59,7 @@ export default function ShippingAddressPage() {
             <Form.Label>Last Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Your last name"
+              placeholder="Last name"
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
