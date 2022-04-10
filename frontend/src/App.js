@@ -18,6 +18,7 @@ import SignupPage from "./pages/SignupPage";
 import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
+import OrderHistory from "./pages/OrderHistory";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -35,48 +36,52 @@ function App() {
         <ToastContainer position="top-center" autoClose={4000} limit={1} />
         <header>
           {/*Navbar created with react-bootstrap and react-bootstrap-router*/}
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
                 <Navbar.Brand>o-merce</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
-                <Link to="/cart" className="nav-link">
-                  Cart
-                  {cart.cartItems.length > 0 && (
-                    <Badge pill bg="danger">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
-                  )}
-                </Link>
-                {userInfo ? (
-                  <NavDropdown
-                    title={`${userInfo.firstName} ${userInfo.lastName}`}
-                    id="basic-nav-dropdown"
-                  >
-                    <LinkContainer to="/profile">
-                      <NavDropdown.Item>User</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/orderhistory">
-                      <NavDropdown.Item>Order History</NavDropdown.Item>
-                    </LinkContainer>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item>
-                      <Link
-                        to="#singout"
-                        className="dropdown-item"
-                        onClick={signoutHandler}
-                      >
-                        Sign out
-                      </Link>
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                ) : (
-                  <Link to="/signin" className="nav-link">
-                    Signin
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              {/*Hamburger menu, if clicked on it the content in side navbar.collapse will be rendered */}
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto w-100 justify-content-end">
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}
                   </Link>
-                )}
-              </Nav>
+                  {userInfo ? (
+                    <NavDropdown
+                      title={`${userInfo.firstName} ${userInfo.lastName}`}
+                      id="basic-nav-dropdown"
+                    >
+                      <LinkContainer to="/profile">
+                        <NavDropdown.Item>User</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/orderhistory">
+                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                      </LinkContainer>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item>
+                        <Link
+                          to="#singout"
+                          className="dropdown-item"
+                          onClick={signoutHandler}
+                        >
+                          Sign out
+                        </Link>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  ) : (
+                    <Link to="/signin" className="nav-link">
+                      Signin
+                    </Link>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -90,6 +95,7 @@ function App() {
               <Route path="/shipping" element={<ShippingAddressPage />} />
               <Route path="/payment" element={<PaymentMethodPage />} />
               <Route path="/placeorder" element={<PlaceOrderPage />} />
+              <Route path="/orderhistory" element={<OrderHistory />} />
               <Route path="/order/:id" element={<OrderPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
