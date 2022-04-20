@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
 function Rating(props) {
-  const { rating, numReviews } = props;
+  const { rating, numReviews, caption } = props;
   return (
     <div className="rating">
       <span>
         <i
           className={
             rating >= 0.75
-              ? 'fas fa-star'
+              ? "fas fa-star"
               : rating >= 0.25
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+              ? "fas fa-star-half-alt"
+              : "far fa-star"
           }
         ></i>
       </span>
@@ -19,10 +19,10 @@ function Rating(props) {
         <i
           className={
             rating >= 1.75
-              ? 'fas fa-star'
+              ? "fas fa-star"
               : rating >= 1.25
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+              ? "fas fa-star-half-alt"
+              : "far fa-star"
           }
         ></i>
       </span>
@@ -30,10 +30,10 @@ function Rating(props) {
         <i
           className={
             rating >= 2.75
-              ? 'fas fa-star'
+              ? "fas fa-star"
               : rating >= 2.25
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+              ? "fas fa-star-half-alt"
+              : "far fa-star"
           }
         ></i>
       </span>
@@ -41,10 +41,10 @@ function Rating(props) {
         <i
           className={
             rating >= 3.75
-              ? 'fas fa-star'
+              ? "fas fa-star"
               : rating >= 3.25
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+              ? "fas fa-star-half-alt"
+              : "far fa-star"
           }
         ></i>
       </span>
@@ -52,14 +52,18 @@ function Rating(props) {
         <i
           className={
             rating >= 4.75
-              ? 'fas fa-star'
+              ? "fas fa-star"
               : rating >= 4.25
-              ? 'fas fa-star-half-alt'
-              : 'far fa-star'
+              ? "fas fa-star-half-alt"
+              : "far fa-star"
           }
         ></i>
       </span>
-      <span> {numReviews} reviews</span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span>{" " + numReviews + " reviews"}</span>
+      )}
     </div>
   );
 }
