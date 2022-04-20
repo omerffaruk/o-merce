@@ -24,6 +24,7 @@ import axios from "axios";
 import { getError } from "./components/utils";
 import Button from "react-bootstrap/Button";
 import SearchBox from "./components/SearchBox";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   // access cart with react context hook, like global scope variable
@@ -152,6 +153,7 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
               <Route path="/signin" element={<SigninPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/search" element={<SearchPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />} />
               <Route path="/payment" element={<PaymentMethodPage />} />
               <Route path="/placeorder" element={<PlaceOrderPage />} />
